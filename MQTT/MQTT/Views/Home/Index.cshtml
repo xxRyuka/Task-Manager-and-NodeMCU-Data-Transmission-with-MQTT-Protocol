@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Canlı Veri";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Canlı Potansiyometre Değeri</h1>
+    
+    <h2 id="pot-value" style="font-size: 8rem; font-weight: bold; color: #007bff;">
+        @ViewBag.InitialPotValue
+    </h2>
+</div>
+
+@section Scripts {
+    <script>
+    // Bu fonksiyon her 1 saniyede (1000 ms) bir çalışacak
+    setInterval(function() {
+        
+        // Sunucudaki /Home/GetLatestPotValue adresine bir GET isteği atıyoruz
+        fetch('/Home/GetLatestPotValue')
+            .then(response => response.json()) // Gelen cevabı JSON olarak işle
+            .then(data => {
+                // JSON'dan 'value' alanını çek
+                var newValue = data.value; 
+                
+                // HTML'deki 'pot-value' id'li elementin içeriğini güncelle
+                document.getElementById('pot-value').innerText = newValue;
+            })
+            .catch(error => {
+                // Bir hata olursa konsola yaz
+                console.error('Veri çekilirken hata oluştu:', error);
+                document.getElementById('pot-value').innerText = 'Hata!';
+            });
+
+    }, 1); // 1000 milisaniye = 1 saniye
+</script>
+}

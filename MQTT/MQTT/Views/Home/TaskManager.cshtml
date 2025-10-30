@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Cihaz Görev Yöneticisi";
+}
+
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h1 class="display-6">@ViewData["Title"]</h1>
+        <p>NodeMCU cihazınızın anlık sağlık durumu </p>
+    </div>
+
+    <div class="row text-center mb-3">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Kalan Boş Hafıza (Heap)</h5>
+                    <h3 id="heap-value" class="text-primary fw-bold">46.98 KB</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Anlık CPU Frekansı</h5>
+                    <h3 id="cpufreq-value" class="text-success fw-bold">80 MHz</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Döngü Yürütme Süresi</h5>
+                    <h3 id="looptime-value" class="text-info fw-bold">13491 µs</h3>
+                    <p class="small text-muted mt-2">Ortalama: <span id="avg-loop">–</span> µs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <canvas id="heapChart"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="cpuChart"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="loopChart"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // --- Chart.js başlangıç ---
+    const labels = Array(10).fill(''); // son 10 saniye
+    const heapData = [];
+    const cpuData = [];
+    const loopData = [];
+
+    const chartConfig = (ctx, label, color, data) => new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                borderColor: color,
+                backgroundColor: color + "33",
+                borderWidth: 2,
+                tension: 0.3,
+                data: data
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: false,
+            scales: {
+                y: { beginAtZero: false }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    const heapChart = chartConfig(document.getElementById('heapChart'), 'Heap (KB)', '#0d6efd', heapData);
+    const cpuChart = chartConfig(document.getElementById('cpuChart'), 'CPU (MHz)', '#198754', cpuData);
+    const loopChart = chartConfig(document.getElementById('loopChart'), 'Loop Time (µs)', '#0dcaf0', loopData);
+
+    // --- Ortalama hesaplama için ---
+    const loopHistory = [];
+
+    async function updateStats() {
+        try {
+            const response = await fetch('/Home/GetLatestStats');
+            if (!response.ok) return;
+
+            const data = await response.json();
+
+            // Verileri HTML'e yaz
+            document.getElementById('heap-value').innerText = data.heap + " KB";
+            document.getElementById('cpufreq-value').innerText = data.cpuFreq + " MHz";
+            document.getElementById('looptime-value').innerText = data.loopTime + " µs";
+
+            // Ortalama döngü süresi
+            loopHistory.push(parseFloat(data.loopTime));
+            if (loopHistory.length > 20) loopHistory.shift();
+            const avg = (loopHistory.reduce((a, b) => a + b, 0) / loopHistory.length).toFixed(1);
+            document.getElementById('avg-loop').innerText = avg;
+
+            // Grafik verilerini güncelle
+            function pushData(arr, value, chart) {
+                arr.push(value);
+                if (arr.length > 10) arr.shift();
+                chart.update();
+            }
+
+            pushData(heapData, parseFloat(data.heap), heapChart);
+            pushData(cpuData, parseFloat(data.cpuFreq), cpuChart);
+            pushData(loopData, parseFloat(data.loopTime), loopChart);
+
+        } catch (error) {
+            console.error("Veri güncellenirken hata:", error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateStats();
+        setInterval(updateStats, 1000);
+    });
+</script>
+}
