@@ -1,8 +1,8 @@
 [![YouTube Video](https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube)](https://www.youtube.com/watch?v=1NbKHaOdFg4)
 
 
-Sena Sultan Karbuz 23370031039
-Enes Furkan Kuş 23370031050
+**Sena Sultan Karbuz 23370031039**
+**Enes Furkan Kuş 23370031050**
 
 Bilgisayar Ağları Ödevi : Mosquitto(MQTT)  Protokolu Kullanarak Veri Aktarımı Sağlamak 
 
@@ -32,6 +32,6 @@ Bu sistem, internet üzerinden erişime kapalıdır ve **sadece yerel ağda (Lok
 1.  **Lokal Broker:** MQTT Broker'ımız (Mosquitto), `192.168.43.207` IP adresine sahip lokal bir bilgisayarda çalışmaktadır.
 2.  **Sabit IP Yapılandırması:** Hem NodeMCU (`mqtt_server_ip`) hem de ASP.NET Core uygulaması (`appsettings.json`), *doğrudan bu lokal IP'ye* bağlanmak üzere kodlanmıştır.
 
-Bu mimariden dolayı, NodeMCU'nun ve ASP.NET Core sunucusunun çalışması için **her ikisinin de** Broker'ın bulunduğu bilgisayar ile **aynı WiFi ağına ("smd") bağlı olması zorunludur.** 
+Bu mimariden dolayı, NodeMCU'nun ve ASP.NET Core sunucusunun çalışması için **her ikisinin de** Broker'ın bulunduğu bilgisayar ile **aynı WiFi ağına bağlı olması zorunludur.** 
 
 Bu sebeple kendi bilgisayarınızda çalısmak için parametreleri değiştirmeniz gerekli
