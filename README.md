@@ -1,4 +1,5 @@
-[![Watch the video](https://img.youtube.com/vi/<VIDEO_ID>/maxresdefault.jpg)](https://www.youtube.com/watch?v=1NbKHaOdFg4)
+[![](https://img.youtube.com/vi/<VIDEO_ID>/maxresdefault.jpg)](https://www.youtube.com/watch?v=1NbKHaOdFg4)
+[![YouTube Video](https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube)](https://www.youtube.com/watch?v=1NbKHaOdFg4)
 
 
 Sena Sultan Karbuz 23370031039
