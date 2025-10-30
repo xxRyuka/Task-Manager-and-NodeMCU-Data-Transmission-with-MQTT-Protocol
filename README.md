@@ -2,6 +2,7 @@
 
 
 **Sena Sultan Karbuz 23370031039**
+
 **Enes Furkan Kuş 23370031050**
 
 Bilgisayar Ağları Ödevi : Mosquitto(MQTT)  Protokolu Kullanarak Veri Aktarımı Sağlamak 
