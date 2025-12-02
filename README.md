@@ -5,7 +5,7 @@
 
 **Enes Furkan Kuş 23370031050**
 
-** Dr.Öğretim Üyesi Hasan Serdar Hocamızın İşletim Sistemleri ve Bilgisayar Ağları Ödevi İçin **
+**Dr.Öğretim Üyesi Hasan Serdar Hocamızın İşletim Sistemleri ve Bilgisayar Ağları Ödevi İçin**
 
 Bilgisayar Ağları Ödevi : Mosquitto(MQTT)  Protokolu Kullanarak Veri Aktarımı Sağlamak 
 
